@@ -10,8 +10,8 @@ from random import shuffle
 # Custom wrapper class for the GitHub Repository
 from GithubData import GithubData
 
-ORGANIZATION_NAME = "UPRM-CIIC4010-F24"
-PROJECT_PREFIX = "pa0"
+ORGANIZATION_NAME = "UPRM-CIIC3015-F24"
+PROJECT_PREFIX = "pa2"
 FILE_NAME = PROJECT_PREFIX + "-Distribution.xlsx"
 
 
@@ -30,7 +30,7 @@ class GradingStatus(Enum):
     GRADED_POOR = "Graded (<=50%)"
     GRADED_LATE = "Graded (Late)"
     GRADED = "Graded"
-    GRADED_EXCEPTIONAL = "Graded (>=100%)"
+    GRADED_EXCEPTIONAL = "Graded (> 100%)"
 
 
 column_name_to_index = {
@@ -197,34 +197,35 @@ def main():
     # Assign TAs
     instructors = {
         "LAB_INSTRUCTORS": [
-            "Jann Garcia",
-            "Jose Ortiz",
-            "Jose Cordero",
-            "Robdiel Melendez",
-            "Jomard Concepcion",
-            "Misael Mercado",
+            "Evelyn Vasquez",
+            "Alvin Badillo",
+            "Sebastian Cruz",
+            "Alfredo Soto",
+            "Ale Pagan",
+            "Jesus Lopez",
+            "Alanis Negroni",
         ],
-        "GRADERS": [
-            "Eithan Capella",
-            "Christian Perez"
-        ]
+        # "GRADERS": [
+        #     "Eithan Capella",
+        #     "Christian Perez"
+        # ]
     }
 
     # THIS LINE IS NOT REALLY NECESSARY BUT I WANT TO BE SUPER FAIR
     # Shuffle the grader list so that the first graders aren't the same
     # everytime when assigning the very last repositories.
-    shuffle(instructors["GRADERS"])
+    # shuffle(instructors["GRADERS"])
 
     # Calculate TA/GRADER split to 60/40 ratio respectively
     valid_repos = len(repositories) - teams_with_less_than_two
-    ratio_lab = 0.60
+    # ratio_lab = 0.60
 
     # Number of projects per group
-    total_lab_projects = floor(ratio_lab * valid_repos)
-    total_grader_projects = valid_repos - total_lab_projects
+    # total_lab_projects = floor(ratio_lab * valid_repos)
+    # total_grader_projects = valid_repos - total_lab_projects
 
     # Projects per lab TA and grader
-    projects_per_ta = total_lab_projects // len(instructors["LAB_INSTRUCTORS"])
+    projects_per_ta = valid_repos // len(instructors["LAB_INSTRUCTORS"])
 
     # Distribute projects to lab TAs
     repo_idx = 2
@@ -237,15 +238,15 @@ def main():
             repo_idx += 1
 
     # Distribute remaining projects to graders in a round-robin fashion
-    grader_index = 0
-    for _ in range(total_grader_projects):
-        grader = instructors["GRADERS"][grader_index % len(instructors["GRADERS"])]
-        worksheet.write(
-            get_cell_index(ColumnName.TA, repo_idx),
-            grader
-        )
-        repo_idx += 1
-        grader_index += 1
+    # grader_index = 0
+    # for _ in range(total_grader_projects):
+    #     grader = instructors["GRADERS"][grader_index % len(instructors["GRADERS"])]
+    #     worksheet.write(
+    #         get_cell_index(ColumnName.TA, repo_idx),
+    #         grader
+    #     )
+    #     repo_idx += 1
+    #     grader_index += 1
 
 
     # Autofit the column widths, and save the file
